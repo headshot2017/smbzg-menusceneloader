@@ -1,11 +1,23 @@
 # -*- mode: python ; coding: utf-8 -*-
 
 
+import UnityPy, archspec, fmod_toolkit, os
+
+module_path_func = lambda module: lambda path: os.path.join(
+    os.path.dirname(module.__file__), path
+)
+
+unitypy_path = module_path_func(UnityPy)
+archspec_path = module_path_func(archspec)
+fmod_toolkit_path = module_path_func(fmod_toolkit)
 a = Analysis(
     ['main.py'],
     pathex=[],
-    binaries=[],
-    datas=[],
+    binaries=[(fmod_toolkit_path("libfmod"), "fmod_toolkit/libfmod")],
+    datas=[
+        (unitypy_path("resources/*"), "UnityPy/resources"),
+        (archspec_path('json'), 'archspec/json')
+    ],
     hiddenimports=['colorgraphicsview', 'animatorwidgets', 'animatorgraphicsview'],
     hookspath=[],
     hooksconfig={},
