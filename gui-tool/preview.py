@@ -55,6 +55,7 @@ class PreviewWindow(QtWidgets.QMainWindow):
         if "backgroundColor" in menudata.jsonFile:
             self.graphicsView.setBackgroundColor(QtGui.QColor(*menudata.jsonFile["backgroundColor"]))
 
+        self.channel = None
         if os.path.exists(game.getMenuPath(menudata.name)+"/start.ogg"):
             mixer.init()
             self.intro = mixer.Sound(game.getMenuPath(menudata.name)+"/start.ogg")
@@ -87,7 +88,7 @@ class PreviewWindow(QtWidgets.QMainWindow):
         self.hidden.emit()
 
     def stop(self):
-        self.channel.stop()
+        if self.channel: self.channel.stop()
         if mixer.get_init(): mixer.quit()
         self.graphicsView.stop()
 
