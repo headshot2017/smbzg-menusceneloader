@@ -57,12 +57,12 @@ public class CustomAnimator_Menu : MonoBehaviour
 
         AnimAction currAction = m_CurrentAnimation.actions[m_Frame];
 
-        while ((m_Time += Time.deltaTime) > currAction.delay)
+        while ((m_Time += Mathf.Min(currAction.delay, Time.deltaTime)) >= currAction.delay)
         {
             if (currAction.delay <= 0)
                 m_Time = currAction.delay - Time.deltaTime;
             else
-                m_Time -= currAction.delay;
+                m_Time -= Mathf.Max(currAction.delay, Time.deltaTime);
 
             m_Frame = (m_Frame + 1) % m_CurrentAnimation.actions.Count;
 
