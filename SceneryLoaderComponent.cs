@@ -117,9 +117,14 @@ public class SceneryLoaderComponent : MonoBehaviour
                                 int y = frameVar[1];
                                 int w = frameVar[2];
                                 int h = frameVar[3];
-                                if (w < 0) w = texture.width;
-                                if (h < 0) h = texture.height;
+                                if (w < 0) w = texture.width - x;
+                                if (h < 0) h = texture.height - y;
 
+                                if (w == 0)
+                                {
+                                    Melon<MenuSceneLoader.Core>.Logger.Msg($"WARNING: {dirName}: {obj["name"]} has a 'frame' action with width = zero! ({x}, {y}, {w}, {h})");
+                                    w = texture.width;
+                                }
                                 if (h == 0)
                                 {
                                     // don't divide by zero, warn the user too
