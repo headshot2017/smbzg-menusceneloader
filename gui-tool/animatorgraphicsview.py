@@ -40,8 +40,8 @@ class PixmapAnimator(QtCore.QAbstractAnimation):
     def setSprite(self, x, y, w, h):
         if not self.fullPixmap or self.fullPixmap.isNull():
             return
-        if w < 0: w = self.fullPixmap.width()
-        if h < 0: h = self.fullPixmap.height()
+        if w < 0: w = self.fullPixmap.width() - x
+        if h < 0: h = self.fullPixmap.height() - y
         self.pixmapItem.setPixmap(self.fullPixmap.copy(x, y, w, h))
         self.pixmapItem.setOffset(-w/2, -h/2)
 
