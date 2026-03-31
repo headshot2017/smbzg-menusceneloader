@@ -3,7 +3,7 @@ using MelonLoader;
 using System.Reflection;
 using UnityEngine;
 
-[assembly: MelonInfo(typeof(MenuSceneLoader.Core), "MenuSceneLoader", "1.0.0", "Headshotnoby/Headshot2017", null)]
+[assembly: MelonInfo(typeof(MenuSceneLoader.Core), "MenuSceneLoader", "1.1.0", "Headshotnoby/Headshot2017", null)]
 [assembly: MelonGame("Jonathan Miller aka Zethros", "SMBZ-G")]
 
 namespace MenuSceneLoader

@@ -49,8 +49,9 @@ class ActionTab_General(BaseActionTab):
         self.combobox_spritelist.clear()
         for i in range(len(menudata.sprites)):
             self.combobox_spritelist.addItem(menudata.sprites[i])
-            if menudata.sprites[i] == self.anim["sprite"]:
+            if menudata.sprites[i] == self.anim["sprite"] or not self.anim["sprite"]:
                 self.combobox_spritelist.setCurrentIndex(i)
+                if not self.anim["sprite"]: self.anim["sprite"] = menudata.sprites[i]
         self.combobox_spritelist.blockSignals(False)
 
     @QtCore.pyqtSlot(str)
