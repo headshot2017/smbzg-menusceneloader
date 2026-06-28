@@ -36,6 +36,7 @@ public class CustomAnimation
 
 public class CustomMenuScene
 {
+    public string name;
     public SceneConstants.MainMenuScenaryModeENUM ID;
     public Color backgroundColor;
     public AudioClip musicStart;
