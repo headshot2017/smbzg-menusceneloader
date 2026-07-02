@@ -51,7 +51,7 @@ public class CustomAnimator_Menu : MonoBehaviour
 
     public void Update()
     {
-        if (!m_Playing || m_CurrentAnimation.actions.Count <= 0) return;
+        if (!m_Playing || m_CurrentAnimation.actions.Count <= 1) return;
 
         InterpolateFrames();
 
