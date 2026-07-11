@@ -2,7 +2,7 @@
 
 Custom menu scenario loader for SMBZ-G.
 
-Requires [MelonLoader](https://github.com/LavaGang/MelonLoader/releases)
+Requires [MelonLoader](https://melonwiki.xyz/#/?id=requirements)
 
 ## Custom menu scenes folder structure
 ```
@@ -24,6 +24,7 @@ Requires [MelonLoader](https://github.com/LavaGang/MelonLoader/releases)
 
 It's recommended to use the MenuSceneLoader Editor program for animating the menu scene instead of editing menu.json by hand.
 
-## Third-party libraries
+## Dependency libraries
 
+* [SMBZModsMenu](https://github.com/headshot2017/smbzg-modsmenu)
 * [TinyJSON](https://github.com/pbhogan/TinyJSON)

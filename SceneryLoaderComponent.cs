@@ -213,7 +213,7 @@ public class SceneryLoaderComponent : MonoBehaviour
         Melon<MenuSceneLoader.Core>.Logger.Msg($"Loading finished with {MenuSceneLoader.Core.MenuScenes.Count} menu scenes");
         Debug.Log($"MenuSceneLoader: Loading finished with {MenuSceneLoader.Core.MenuScenes.Count} menu scenes");
 
-        MenuSceneLoader.Core.IsLoading = false;
+        MenuSceneLoader.Core.MenusLoaded = true;
         Destroy(gameObject);
         yield return null;
     }

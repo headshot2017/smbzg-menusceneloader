@@ -11,16 +11,33 @@ namespace MenuSceneLoader
     public class Core : MelonMod
     {
         public static List<CustomMenuScene> MenuScenes = new List<CustomMenuScene>();
-        public static bool IsLoading;
+        public static bool MenusLoaded;
 
         public override void OnInitializeMelon()
         {
             LoggerInstance.Msg("Initialized.");
-            IsLoading = true;
         }
 
         public override void OnLateInitializeMelon()
         {
+            SMBZModsMenu.Core.BeforeMainMenu.Add(() => MenusLoaded);
+            SMBZModsMenu.Core.ModEntries.Add(new()
+            {
+                info = Info,
+                reloadFunction = LoadMenuScenes,
+                updateLocation = SMBZModsMenu.ModUpdateLocation.Github,
+                updateRepo = "headshot2017/smbzg-menusceneloader"
+            });
+
+            LoadMenuScenes();
+        }
+
+        public void LoadMenuScenes()
+        {
+            if (GameObject.Find("MenuSceneLoader") != null) return;
+
+            MenusLoaded = false;
+            MenuScenes.Clear();
             GameObject obj = new GameObject("MenuSceneLoader", typeof(SceneryLoaderComponent));
             GameObject.DontDestroyOnLoad(obj);
         }
@@ -82,43 +99,6 @@ namespace MenuSceneLoader
                 }
 
                 typeof(AutoBGMPlayer).GetField("isInit", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(__instance, true);
-                return false;
-            }
-        }
-
-        [HarmonyPatch(typeof(IntroScript), "Update")]
-        private static class IntroClassPatch
-        {
-            private static bool Prefix(IntroScript __instance)
-            {
-                FieldInfo fCountdown = typeof(IntroScript).GetField("countdown", BindingFlags.Instance | BindingFlags.NonPublic);
-                float countdown = (float)fCountdown.GetValue(__instance);
-                if (!(countdown > 0f))
-                {
-                    return false;
-                }
-
-                countdown -= Time.unscaledDeltaTime;
-                if (!(countdown <= 0f))
-                {
-                    return false;
-                }
-
-                if (CharacterSkinManager.ins.IsLoading || IsLoading)
-                {
-                    fCountdown.SetValue(__instance, 0.25f);
-                    return false;
-                }
-
-                if (!GC.ins.enabled)
-                {
-                    Debug.Log("GC instance is diabled. Enabling...");
-                    GC.ins.enabled = true;
-                }
-
-                Debug.Log("Loading Main Menu...");
-                GC.ins.LoadScene("MainMenu");
-
                 return false;
             }
         }
