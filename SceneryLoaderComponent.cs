@@ -65,11 +65,18 @@ public class SceneryLoaderComponent : MonoBehaviour
         }
         else if (json.Keys.Contains("vanillaMusic"))
         {
-            FieldInfo field = typeof(SoundCache).GetField($"BGM_{json["vanillaMusic"]}", BindingFlags.Instance | BindingFlags.Public);
+            FieldInfo field = typeof(SoundCache).GetField($"{json["vanillaMusic"]}", BindingFlags.Instance | BindingFlags.Public);
             if (field != null)
                 theme.musicStart = theme.musicLoop = (AudioClip)field.GetValue(SoundCache.ins);
             else
-                Melon<MenuSceneLoader.Core>.Logger.Msg($"WARNING: {dirName}: Vanilla music '{json["vanillaMusic"]}' not found");
+            {
+                // legacy
+                field = typeof(SoundCache).GetField($"BGM_{json["vanillaMusic"]}", BindingFlags.Instance | BindingFlags.Public);
+                if (field != null)
+                    theme.musicStart = theme.musicLoop = (AudioClip)field.GetValue(SoundCache.ins);
+                else
+                    Melon<MenuSceneLoader.Core>.Logger.Msg($"WARNING: {dirName}: Vanilla music '{json["vanillaMusic"]}' not found");
+            }
         }
 
         if (json.Keys.Contains("objects"))

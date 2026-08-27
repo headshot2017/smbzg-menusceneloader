@@ -5,20 +5,10 @@ import os
 from pygame import mixer
 from PyQt5 import QtWidgets, QtCore, QtGui, uic
 import UnityPy
+from UnityPy.helpers.TypeTreeGenerator import TypeTreeGenerator
 
 import game
 import menudata
-
-
-audioClipMappings = {
-    "SMBZTheme": "SMBZ Main Theme",
-    "GoombaTheme": "SMB2Overworld_Loop",
-    "Halloween": "SuperMario_HalloweenTheme",
-    "SemiSuperA": "ThemeoftheSages",
-    "SemiSuperB": "ThemeoftheSages",
-    "SemiSuperC": "OCRemixSMB3Pipes",
-    "GoombaNukeTheme": "SongThatMightPlayWhenGoombaCausesAnActOfTerrorism",
-}
 
 
 class PreviewWindow(QtWidgets.QMainWindow):
@@ -66,19 +56,33 @@ class PreviewWindow(QtWidgets.QMainWindow):
             mixer.init()
             self.loop = mixer.Sound(game.getMenuPath(menudata.name)+"/loop.ogg")
             self.channel = self.loop.play(loops=-1)
-        elif "vanillaMusic" in menudata.jsonFile and menudata.jsonFile["vanillaMusic"] in audioClipMappings:
+        elif "vanillaMusic" in menudata.jsonFile:
             # extract the AudioClip from Unity game data
             assets = UnityPy.load(game.smbzgPath+"/SMBZ-G_Data/sharedassets0.assets")
-            for obj in assets.objects:
-                if obj.type.name != "AudioClip": continue
-                name = obj.peek_name()
-                if name != audioClipMappings[menudata.jsonFile["vanillaMusic"]]: continue
-                audioClipName = audioClipMappings[menudata.jsonFile["vanillaMusic"]]
-                clip = obj.parse_as_object()
-                for name, data in clip.samples.items(): # it's only one item
-                    mixer.init(frequency=clip.m_Frequency, channels=clip.m_Channels, allowedchanges=0)
-                    self.loop = mixer.Sound(buffer=data)
-                    self.channel = self.loop.play(loops=-1)
+            env = UnityPy.load(game.smbzgPath+"/SMBZ-G_Data/level0")
+
+            generator = TypeTreeGenerator(env.file.unity_version)
+            generator.load_local_game(game.smbzgPath)
+            env.typetree_generator = generator
+
+            # search for SoundCache class
+            matches = [obj for obj in env.objects if obj.type.name == 'MonoBehaviour' and obj.parse_as_object().get_type() == 'SoundCache']
+            if matches:
+                soundcache = matches[0].parse_as_dict()
+
+                # find the wanted AudioClip field in SoundCache
+                name = menudata.jsonFile["vanillaMusic"]
+                pathID = (soundcache.get(name) or soundcache.get("BGM_"+name))["m_PathID"]
+
+                # use the path ID to get the actual audio clip from sharedassets0.assets
+                matches = [obj for obj in assets.objects if obj.type.name == 'AudioClip' and obj.path_id == pathID]
+                if matches:
+                    clip = matches[0].parse_as_object()
+                    for name, data in clip.samples.items(): # it's only one item
+                        mixer.init(frequency=clip.m_Frequency, channels=clip.m_Channels, allowedchanges=0)
+                        self.loop = mixer.Sound(buffer=data)
+                        self.channel = self.loop.play(loops=-1)
+
 
         self.graphicsView.setBorderLines(False)
         self.graphicsView.reloadObjects()

@@ -13,9 +13,9 @@ class MusicDialog(QtWidgets.QDialog):
 
         for f in game.assembly.GetType("SoundCache").GetFields():
             if f.Name.startswith("BGM_"):
-                name = f.Name[4:]
+                name = f.Name
                 self.comboBox.addItem(name)
-                if "vanillaMusic" in menudata.jsonFile and menudata.jsonFile["vanillaMusic"] == name:
+                if "vanillaMusic" in menudata.jsonFile and (menudata.jsonFile["vanillaMusic"] == name or "BGM_"+menudata.jsonFile["vanillaMusic"] == name):
                     self.comboBox.setCurrentIndex(self.comboBox.count()-1)
                 
 
