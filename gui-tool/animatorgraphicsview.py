@@ -56,7 +56,7 @@ class PixmapAnimator(QtCore.QAbstractAnimation):
         self.animDuration = 0
         for frame in self.obj["frames"]:
             if "delay" in frame:
-                self.animDuration += frame["delay"]*1000
+                self.animDuration += int(frame["delay"]*1000)
 
         self.reloadSprite(game.getMenuPath(menudata.name)+"/sprites/"+self.obj["sprite"])
         self.setFrame(0)
@@ -72,7 +72,7 @@ class PixmapAnimator(QtCore.QAbstractAnimation):
         self.animDuration = 0
         for frame in self.obj["frames"]:
             if "delay" in frame:
-                self.animDuration += frame["delay"]*1000
+                self.animDuration += int(frame["delay"]*1000)
 
 
     def onFrameChange(self):
