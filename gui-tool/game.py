@@ -1,6 +1,7 @@
 import os
 
 import clr
+import System
 from PyQt5 import QtWidgets
 
 
@@ -25,11 +26,19 @@ def init():
 
     customMenusPath = "%s/SMBZ-G_Data/StreamingAssets/MenuScenes" % smbzgPath
 
-    assembly = clr.AddReference("%s/SMBZ-G_Data/Managed/Assembly-CSharp" % smbzgPath)
-    if not assembly:
-        return False
+    try:
+        assembly = clr.AddReference("%s/SMBZ-G_Data/Managed/Assembly-CSharp" % smbzgPath)
+    except System.IO.FileLoadException:
+        QtWidgets.QMessageBox.critical(None, "Error",
+            "Failed to open Assembly-CSharp.dll!\n" +
+            "\n" +
+            "If you're on Windows, try this to fix the problem:\n" +
+            "1. Open 'SMBZ-G\\SMBZ-G_Data\\Managed' on the file explorer\n" +
+            "2. Right-click 'Assembly-CSharp.dll', select Properties\n" +
+            "3. Click 'Unblock' at the bottom right, then save"
+        )
 
-    return True
+    return assembly != None
 
 def getMenuPath(name):
     return "%s/%s" % (customMenusPath, name)
