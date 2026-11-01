@@ -34,7 +34,8 @@ public class SceneryLoaderComponent : MonoBehaviour
         {
             name = dirName,
             prefab = new GameObject($"Scenery: {dirName}"),
-            backgroundColor = json.Keys.Contains("backgroundColor") ? new Color(json["backgroundColor"][0] / 255f, json["backgroundColor"][1] / 255f, json["backgroundColor"][2] / 255f) : Color.white
+            backgroundColor = json.Keys.Contains("backgroundColor") ? new Color(json["backgroundColor"][0] / 255f, json["backgroundColor"][1] / 255f, json["backgroundColor"][2] / 255f) : Color.white,
+            scrollingBackground = new()
         };
         DontDestroyOnLoad(theme.prefab);
         RectTransform t = theme.prefab.AddComponent<RectTransform>();
@@ -76,6 +77,19 @@ public class SceneryLoaderComponent : MonoBehaviour
                     theme.musicStart = theme.musicLoop = (AudioClip)field.GetValue(SoundCache.ins);
                 else
                     Melon<MenuSceneLoader.Core>.Logger.Msg($"WARNING: {dirName}: Vanilla music '{json["vanillaMusic"]}' not found");
+            }
+        }
+
+        if (json.Keys.Contains("scrollBg"))
+        {
+            ProxyObject scrollBg = json["scrollBg"] as ProxyObject;
+            if (scrollBg.Keys.Contains("vanilla"))
+                theme.scrollingBackground.vanilla = scrollBg["vanilla"];
+            if (File.Exists($"{path}/scroll.png"))
+            {
+                yield return TextureDownload(Uri.EscapeUriString($"file:///{path}/scroll.png"));
+                if (!scrollBg.Keys.Contains("filter") || !scrollBg["filter"]) texture.filterMode = FilterMode.Point;
+                theme.scrollingBackground.sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0, 0));
             }
         }
 

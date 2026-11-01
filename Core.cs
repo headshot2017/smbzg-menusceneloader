@@ -102,5 +102,33 @@ namespace MenuSceneLoader
                 return false;
             }
         }
+
+        [HarmonyPatch(typeof(CustomScrollingBackground), "Start")]
+        private static class CustomScrollingBackgroundPatch
+        {
+            private static bool Prefix(CustomScrollingBackground __instance)
+            {
+                CustomMenuScene theme = MenuScenes.Find((theme) => theme.ID == SaveData.Data.Get_MainMenuScenaryMode());
+                if (theme == null) return true;
+
+                if (theme.scrollingBackground.vanilla != "")
+                {
+                    FieldInfo spriteField = __instance.GetType().GetField(theme.scrollingBackground.vanilla, BindingFlags.Instance | BindingFlags.Public);
+                    if (spriteField != null)
+                    {
+                        theme.scrollingBackground.sprite = (Sprite)spriteField.GetValue(__instance);
+                    }
+                    theme.scrollingBackground.vanilla = "";
+                }
+
+                if (theme.scrollingBackground.sprite != null)
+                {
+                    __instance.ScrollThisOne.overrideSprite = theme.scrollingBackground.sprite;
+                    return false;
+                }
+
+                return true;
+            }
+        }
     }
 }

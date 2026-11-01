@@ -34,6 +34,12 @@ public class CustomAnimation
     public List<AnimAction> actions;
 }
 
+public class CustomScrollingBackgroundMod
+{
+    public string vanilla;
+    public Sprite sprite;
+};
+
 public class CustomMenuScene
 {
     public string name;
@@ -42,4 +48,5 @@ public class CustomMenuScene
     public AudioClip musicStart;
     public AudioClip musicLoop;
     public GameObject prefab;
+    public CustomScrollingBackgroundMod scrollingBackground;
 }
