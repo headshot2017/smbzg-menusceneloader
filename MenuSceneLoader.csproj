@@ -24,9 +24,6 @@
 		<Reference Include="Coffee.UIParticle">
 			<HintPath>C:\Users\juanp\Desktop\juegos\smbz-g 1.19\SMBZ-G_Data\Managed\Coffee.UIParticle.dll</HintPath>
 		</Reference>
-		<Reference Include="InputSystem.Samples.Visualizers">
-			<HintPath>C:\Users\juanp\Desktop\juegos\smbz-g 1.19\SMBZ-G_Data\Managed\InputSystem.Samples.Visualizers.dll</HintPath>
-		</Reference>
 		<Reference Include="MyBox">
 			<HintPath>C:\Users\juanp\Desktop\juegos\smbz-g 1.19\SMBZ-G_Data\Managed\MyBox.dll</HintPath>
 		</Reference>
@@ -41,12 +38,6 @@
 		</Reference>
 		<Reference Include="Unity.InputSystem">
 			<HintPath>C:\Users\juanp\Desktop\juegos\smbz-g 1.19\SMBZ-G_Data\Managed\Unity.InputSystem.dll</HintPath>
-		</Reference>
-		<Reference Include="Unity.InputSystem.InGameHints">
-			<HintPath>C:\Users\juanp\Desktop\juegos\smbz-g 1.19\SMBZ-G_Data\Managed\Unity.InputSystem.InGameHints.dll</HintPath>
-		</Reference>
-		<Reference Include="Unity.InputSystem.RebindingUI">
-			<HintPath>C:\Users\juanp\Desktop\juegos\smbz-g 1.19\SMBZ-G_Data\Managed\Unity.InputSystem.RebindingUI.dll</HintPath>
 		</Reference>
 		<Reference Include="Unity.TextMeshPro">
 			<HintPath>C:\Users\juanp\Desktop\juegos\smbz-g 1.19\SMBZ-G_Data\Managed\Unity.TextMeshPro.dll</HintPath>
@@ -119,9 +110,6 @@
 		</Reference>
 		<Reference Include="UnityEngine.InputModule">
 			<HintPath>C:\Users\juanp\Desktop\juegos\smbz-g 1.19\SMBZ-G_Data\Managed\UnityEngine.InputModule.dll</HintPath>
-		</Reference>
-		<Reference Include="UnityEngine.InputSystem.Samples.UIvsGameInput">
-			<HintPath>C:\Users\juanp\Desktop\juegos\smbz-g 1.19\SMBZ-G_Data\Managed\UnityEngine.InputSystem.Samples.UIvsGameInput.dll</HintPath>
 		</Reference>
 		<Reference Include="UnityEngine.JSONSerializeModule">
 			<HintPath>C:\Users\juanp\Desktop\juegos\smbz-g 1.19\SMBZ-G_Data\Managed\UnityEngine.JSONSerializeModule.dll</HintPath>
