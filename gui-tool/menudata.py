@@ -35,11 +35,18 @@ def defaultObject(name):
         "frames": []
     }
 
+def defaultScrollBg():
+    return {
+        "vanilla": "",
+        "filter": False
+    }
+
 def defaultMenuData():
     return {
         "version": 1,
         "editor": {},
         "backgroundColor": [255, 255, 255],
+        "scrollBg": defaultScrollBg(),
         "objects": []
     }
 

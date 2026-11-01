@@ -10,6 +10,19 @@ import frameClipboard
 import preview
 
 
+class VanillaBgDialog(QtWidgets.QDialog):
+    def __init__(self, parent):
+        super().__init__(parent)
+        uic.loadUi("ui/scrollbgdialog.ui", self)
+
+        for f in game.assembly.GetType("CustomScrollingBackground").GetFields():
+            if f.Name == "ScrollThisOne": continue
+
+            self.comboBox.addItem(f.Name)
+            if menudata.jsonFile["scrollBg"]["vanilla"] == f.Name:
+                self.comboBox.setCurrentIndex(self.comboBox.count()-1)
+
+
 class BaseAnimatorWidget(QtWidgets.QWidget):
     def __init__(self, file):
         super().__init__()
@@ -79,6 +92,10 @@ class MenuAnimatorWidget(BaseAnimatorWidget):
         self.objectsTree.currentItemChanged.connect(self.onAnimationTreeChange)
         self.objectsTree.itemDoubleClicked.connect(self.onAnimationTreeDoubleClick)
         self.objectsTree.customContextMenuRequested.connect(self.onAnimationTreeContextMenu)
+
+        self.checkbox_scrollBgFilter.stateChanged.connect(self.onSetScrollBgFilter)
+        self.btn_useScrollPng.clicked.connect(self.onUseScrollBg)
+        self.btn_setVanillaBg.clicked.connect(self.onSetVanillaBg)
 
         #self.btn_reloadSprite.clicked.connect(self.onRefresh)
 
@@ -224,6 +241,21 @@ class MenuAnimatorWidget(BaseAnimatorWidget):
                     if not expanded[objName][k]: continue
                     expanded[objName][k].setExpanded(True)
 
+
+    @QtCore.pyqtSlot(int)
+    def onSetScrollBgFilter(self, value):
+        menudata.jsonFile["scrollBg"]["filter"] = value > 0
+
+    @QtCore.pyqtSlot()
+    def onUseScrollBg(self):
+        menudata.jsonFile["scrollBg"]["vanilla"] = ""
+
+    @QtCore.pyqtSlot()
+    def onSetVanillaBg(self):
+        dialog = VanillaBgDialog(self)
+        if dialog.exec():
+            bgName = dialog.comboBox.currentText()
+            menudata.jsonFile["scrollBg"]["vanilla"] = bgName
 
     @QtCore.pyqtSlot(QtWidgets.QTreeWidgetItem, QtWidgets.QTreeWidgetItem)
     def onAnimationTreeChange(self, current, previous):
@@ -595,3 +627,9 @@ class MenuAnimatorWidget(BaseAnimatorWidget):
     @QtCore.pyqtSlot()
     def onRefresh(self):
         self.animatorView.reloadObjects()
+
+        if "scrollBg" not in menudata.jsonFile:
+            menudata.jsonFile["scrollBg"] = menudata.defaultScrollBg()
+        scrollBg = menudata.jsonFile["scrollBg"]
+
+        self.checkbox_scrollBgFilter.setChecked(scrollBg["filter"] if "filter" in scrollBg else False)

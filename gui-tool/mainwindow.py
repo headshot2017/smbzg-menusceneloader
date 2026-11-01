@@ -116,7 +116,8 @@ class GUIToolMainWindow(QtWidgets.QMainWindow):
             "Menu scene '%s' created.\n" % (menuName) +
             "Remember to do the following:\n" +
             "* Add sprites to your menu scene's 'sprites' directory\n" +
-            "* OPTIONAL: Add custom music to the menu scene's directory (start.ogg and/or loop.ogg)\n"
+            "* OPTIONAL: Add custom music to the menu scene's directory (start.ogg and/or loop.ogg)\n" +
+            "* OPTIONAL: Set a scrolling background for other menus like Arcade Mode, Versus Mode...\n"
         )
 
         self.statusbar.showMessage("Created menu scene '%s'" % menuName, 3000)
