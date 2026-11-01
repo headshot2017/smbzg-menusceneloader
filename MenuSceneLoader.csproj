@@ -27,8 +27,8 @@
 		<Reference Include="MyBox">
 			<HintPath>C:\Users\juanp\Desktop\juegos\smbz-g 1.19\SMBZ-G_Data\Managed\MyBox.dll</HintPath>
 		</Reference>
-		<Reference Include="SMBZModsMenu">
-		  <HintPath>..\..\Mods\SMBZModsMenu.dll</HintPath>
+		<Reference Include="SMBZCoreMod">
+		  <HintPath>..\..\Mods\SMBZCoreMod.dll</HintPath>
 		</Reference>
 		<Reference Include="TinyJSON">
 		  <HintPath>..\..\UserLibs\TinyJSON.dll</HintPath>

@@ -20,12 +20,12 @@ namespace MenuSceneLoader
 
         public override void OnLateInitializeMelon()
         {
-            SMBZModsMenu.Core.BeforeMainMenu.Add(() => MenusLoaded);
-            SMBZModsMenu.Core.ModEntries.Add(new()
+            SMBZCoreMod.BeforeMainMenu.Add(() => MenusLoaded);
+            SMBZCoreMod.ModEntries.Add(new()
             {
                 info = Info,
                 reloadFunction = LoadMenuScenes,
-                updateLocation = SMBZModsMenu.ModUpdateLocation.Github,
+                updateLocation = SMBZModEntries.ModUpdateLocation.Github,
                 updateRepo = "headshot2017/smbzg-menusceneloader"
             });
 
